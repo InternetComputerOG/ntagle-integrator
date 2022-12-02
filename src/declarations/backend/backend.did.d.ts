@@ -3,6 +3,7 @@ import type { ActorMethod } from '@dfinity/agent';
 
 export type AESKey = string;
 export type BlockIndex = bigint;
+export type Hex = string;
 export interface Location { 'latitude' : number, 'longitude' : number }
 export interface LoggedMessage {
   'uid' : TagUid,
@@ -45,7 +46,11 @@ export interface ValidationRequest {
   'validation' : ValidationIdentifier,
   'access_code' : AESKey,
 }
-export interface ValidationResponse { 'owner' : boolean, 'wallet' : Uint8Array }
+export interface ValidationResponse {
+  'tag' : Hex,
+  'owner' : boolean,
+  'wallet' : Uint8Array,
+}
 export type ValidationResult = { 'Ok' : ValidationResponse } |
   { 'Err' : ValidationError };
 export interface _SERVICE extends SDM {}

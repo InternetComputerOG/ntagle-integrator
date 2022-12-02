@@ -163,6 +163,7 @@ shared actor class SDM() = this {
                   };
 
                   let result = {
+                    tag = validationResponse.tag;
                     owner = true;
                     wallet = wallet;
                   };
@@ -190,6 +191,7 @@ shared actor class SDM() = this {
               tagWallets.put(validationResponse.tag, tag_wallet);
 
               let result = {
+                tag = validationResponse.tag;
                 owner = true;
                 wallet = tag_wallet;
               };

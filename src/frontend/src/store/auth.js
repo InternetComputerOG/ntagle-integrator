@@ -50,19 +50,11 @@ export const auth = writable({
   actor: createActor()
 });
 
-export const adminStatus = writable(true);
-
-export const scanCredentials = writable({
-  uid: 0,
-  ctr: 0,
-  cmac: "",
-  transfer_code: ""
-});
+export const adminStatus = writable(false);
 
 export const tag = writable({
   valid: false,
+  tag: "",
   owner: false,
-  locked: true,
-  transfer_code: null,
   wallet: null
 });

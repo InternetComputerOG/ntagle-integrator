@@ -1,3 +1,21 @@
+type ValidationResult = 
+ variant {
+   Err: ValidationError;
+   Ok: ValidationResponse;
+ };
+type ValidationResponse = 
+ record {
+   owner: bool;
+   tag: Hex;
+   wallet: blob;
+ };
+type ValidationRequest = 
+ record {
+   access_code: AESKey;
+   validation: ValidationIdentifier;
+ };
+type ValidationIdentifier = text;
+type ValidationError = record {msg: text;};
 type TransferResult = 
  variant {
    Err: TransferError;
@@ -12,33 +30,7 @@ type TransferError =
    TxTooOld: record {allowed_window_nanos: nat64;};
  };
 type Tokens = record {e8s: nat64;};
-type TagUid = nat64;
-type TagEncodeResult = 
- record {
-   key: AESKey;
-   transfer_code: AESKey;
- };
-type TagCtr = nat32;
-type ScanResult = 
- variant {
-   Err: ScanError;
-   Ok: ScanResponse;
- };
-type ScanResponse = 
- record {
-   locked: bool;
-   owner: bool;
-   transfer_code: opt AESKey;
-   wallet: blob;
- };
-type ScanError = record {msg: text;};
-type Scan = 
- record {
-   cmac: CMAC;
-   ctr: TagCtr;
-   transfer_code: AESKey;
-   uid: TagUid;
- };
+type TagUid = text;
 type NewMessage = 
  record {
    location: opt Location;
@@ -60,7 +52,6 @@ type Location =
    longitude: float64;
  };
 type Hex = text;
-type CMAC = text;
 type BlockIndex = nat64;
 type AESKey = text;
 service : {
@@ -69,11 +60,11 @@ service : {
                             TagUid;
                             principal;
                           }) query;
-  importScans: (TagUid, vec Hex) -> () oneway;
+  initializeNtagle: () -> () oneway;
   isAdmin: () -> (bool);
   postMessage: (NewMessage) -> (vec LoggedMessage);
-  registerTag: (TagUid) -> (TagEncodeResult);
-  scan: (Scan) -> (ScanResult);
   tagBalance: (TagUid) -> (nat64);
+  validateAccess: (ValidationRequest) -> (ValidationResult);
+  whoami: () -> (principal);
   withdraw: (TagUid, vec nat8, nat64) -> (TransferResult);
 }

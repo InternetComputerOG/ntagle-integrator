@@ -1,7 +1,7 @@
 <script>
   import { AccountIdentifier } from "@dfinity/nns";
   import { onMount } from "svelte";
-  import { auth, tag, scanCredentials } from "../store/auth";
+  import { auth, tag } from "../store/auth";
   import { bigIntToUint8Array, toHexString } from "../utils/helpers";
 
   let msg = "Let us use your location to calculate your distance from others in the chat. Only the smart contract will know your exact location, your privacy will be respected.";
@@ -19,7 +19,7 @@
 
   onMount(async () => {
     // getPosition();
-    refreshChatLog($scanCredentials.uid, latitude, longitude);
+    refreshChatLog($tag.tag, latitude, longitude);
   });
 
   function getPosition() {
@@ -36,7 +36,7 @@
     latitude = position.coords.latitude;
     longitude = position.coords.longitude;
 
-    refreshChatLog($scanCredentials.uid, latitude, longitude);
+    refreshChatLog($tag.tag, latitude, longitude);
   };
 
   function showError(error) {
@@ -55,7 +55,7 @@
         break;
     };
 
-    refreshChatLog($scanCredentials.uid, latitude, longitude)
+    refreshChatLog($tag.tag, latitude, longitude)
   };
 
   async function postMessage(messageText, currentLatitude, currentLongitude) {
@@ -63,7 +63,7 @@
 
     if (!Boolean(currentLatitude) || !Boolean(currentLongitude)) {
       let new_message = {
-        uid: $scanCredentials.uid,
+        uid: $tag.tag,
         location: [],
         message: messageText
       };
@@ -75,7 +75,7 @@
       console.log(chatLog);
     } else {
       let new_message = {
-        uid: $scanCredentials.uid,
+        uid: $tag.tag,
         location: [{
           latitude: currentLatitude,
           longitude: currentLongitude
@@ -134,12 +134,12 @@
   {#if pendingLoadChats}
     <br /><div class="loader"></div> Loading chat history...
   {:else}
-    <button on:click={refreshChatLog($scanCredentials.uid, latitude, longitude)}>↻ Refresh</button>
+    <button on:click={refreshChatLog($tag.tag, latitude, longitude)}>↻ Refresh</button>
     <ul class="chats">
       {#each chatLog.reverse() as chatMessage}
         <li class="chatMessage">
           <h3>{(new Date(Number(chatMessage.time) / 1000000)).toLocaleString()}</h3>
-          <h4><span class="chat-label">Tag:</span> {chatMessage.uid}</h4>
+          <h4><span class="chat-label">Tag:</span> {chatMessage.uid.toUpperCase()}</h4>
           <!-- {chatMessage.from}
           {console.log(chatMessage.from)} -->
           <h6><span class="chat-label">Principal:</span> {toHexString(chatMessage.from._arr).slice(0,5)}...{toHexString(chatMessage.from._arr).slice(-3)}</h6>

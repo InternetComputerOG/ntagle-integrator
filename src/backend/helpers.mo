@@ -31,7 +31,7 @@ module {
   };
 
   public func uidToSubaccount(uid : T.TagUid) : Account.Subaccount {
-    assert Hex.valid(uid);
+    //assert Hex.valid(uid);
     let uid_nat64 = Nat64.fromNat(Nat32.toNat(Hex.hash(uid)));
     Blob.fromArray(Array.append(Array.freeze(Array.init<Nat8>(24, 0 : Nat8)), nat64ToBytes(uid_nat64)));
   };

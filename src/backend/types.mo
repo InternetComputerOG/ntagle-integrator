@@ -26,8 +26,9 @@ module {
   };
 
   public type ValidationResponse = {
-    owner: Bool;
-    wallet: Blob;
+    tag : Hex.Hex;
+    owner : Bool;
+    wallet : Blob;
   };
 
   public type ValidationError = {

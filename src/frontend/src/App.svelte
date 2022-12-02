@@ -24,18 +24,15 @@
     <Route path="tag">
       <Auth />
       {#if $tag.valid}
-        <!-- {#if $tag.locked && $tag.owner}
-          <Unlock />
-        {/if} -->
         <Tag />
         {#if $tag.owner}
           <Chat />
         {/if}
       {/if}
     </Route>
-  {#if $adminStatus}
-    <Admin />
-  {/if}
+    {#if $adminStatus}
+      <Admin />
+    {/if}
   </main>
 </Router>
 

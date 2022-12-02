@@ -23,7 +23,9 @@ export const idlFactory = ({ IDL }) => {
     'validation' : ValidationIdentifier,
     'access_code' : AESKey,
   });
+  const Hex = IDL.Text;
   const ValidationResponse = IDL.Record({
+    'tag' : Hex,
     'owner' : IDL.Bool,
     'wallet' : IDL.Vec(IDL.Nat8),
   });

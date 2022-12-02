@@ -1,7 +1,7 @@
 <script>
   import { AccountIdentifier } from "@dfinity/nns";
   import { onMount } from "svelte";
-  import { auth, tag, scanCredentials } from "../store/auth";
+  import { auth, tag } from "../store/auth";
 
   let walletBalance = 0;
   let withdrawalAddress;
@@ -23,7 +23,7 @@
   async function getBalance() {
     pendingBalanceRefresh = true;
     console.log("Refreshing tag balance.");
-    let newBalance = await $auth.actor.tagBalance($scanCredentials.uid);
+    let newBalance = await $auth.actor.tagBalance($tag.tag);
     walletBalance = parseFloat((Number(newBalance) / 100000000).toFixed(4));
     console.log("New Balance: " + {walletBalance});
     withdrawalAmount = walletBalance;
@@ -82,21 +82,10 @@
 
 <div class="container">
   <h1>Tag Info</h1>
-  <h2>#{$scanCredentials.uid} | 
-    {#if $tag.locked}
-      <span class="locked">LOCKED</span>
-    {:else}
-      <span class="unlocked">UNLOCKED</span>
-    {/if}
-  </h2>
+  <h2>#{$tag.tag.toUpperCase()}</h2>
 
   {#if $tag.owner}
     <h3>You are the owner of this tag.</h3>
-    {#if $tag.locked}
-      <Unlock />
-    {:else}
-      <Lock />
-    {/if}
   {:else}
     <h3>You are not the owner of this tag.</h3>
   {/if}
@@ -107,7 +96,7 @@
   <div class="wallet-address">
     <span class="wallet-address-container">{$tag.wallet}</span>
     <span class="copy-icon" on:click={() => copyDepositAddress($tag.wallet)}>
-      <FontAwesomeIcon icon="copy" />
+      COPY
       {#if didCopyDepositAddress}
           Copied!
       {/if}
@@ -156,7 +145,7 @@
           <br />
           {#if withdrawalAmount > 0.0001}
             <button 
-              on:click={withdrawICP($scanCredentials.uid, withdrawalAddress, withdrawalAmount)}
+              on:click={withdrawICP($tag.tag, withdrawalAddress, withdrawalAmount)}
             >
               Withdraw <strong>{parseFloat((withdrawalAmount - 0.0001).toFixed(4))}</strong> ICP
             </button>

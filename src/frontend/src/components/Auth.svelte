@@ -1,7 +1,7 @@
 <script>
   import { AuthClient } from "@dfinity/auth-client";
   import { onMount } from "svelte";
-  import { adminStatus, auth, createActor, scanCredentials, tag } from "../store/auth";
+  import { adminStatus, auth, createActor, tag } from "../store/auth";
   import { accountIdentifierFromBytes } from "../utils/helpers";
 
   /** @type {AuthClient} */
@@ -12,25 +12,13 @@
   //   window.location.href = "https://gkox5-naaaa-aaaal-abhaq-cai.ic0.app/";
   // };
 
-  let uid = parseInt(url.slice(50,64), 16);
-  let ctr = parseInt(url.slice(65,71), 16);
-  let cmac = url.slice(72,88);
-  let transferCode = url.slice(89,121);
+  let validation_id = url.slice(50,58);
+  let access_code = url.slice(59,91);
   let loading = false;
-  console.log("url: " + url);
-  console.log("uid: " + uid);
-  console.log("ctr: " + ctr);
-  console.log("cmac: " + cmac);
-  console.log("transfer code: " + transferCode);
+  console.log("Validation ID: " + validation_id);
+  console.log("Access Code: " + access_code);
 
   let message = "Please login to validate your scan.";
-
-  scanCredentials.update(() => ({
-    uid: uid,
-    ctr: ctr,
-    cmac: cmac,
-    transfer_code: transferCode
-  }));
 
   onMount(async () => {
     client = await AuthClient.create();
@@ -52,36 +40,32 @@
     }));
 
     // isAdmin();
-    validateScan();
+    validateAccess();
   };
 
-  async function validateScan() {
-    let scan_param = {
-      uid: uid,
-      ctr: ctr,
-      cmac: cmac,
-      transfer_code: transferCode
+  async function validateAccess() {
+    console.log("Starting to validate access...");
+    let validation_param = {
+      validation: validation_id,
+      access_code: access_code
     };
 
-    let result = await $auth.actor.scan(scan_param);
+    let result = await $auth.actor.validateAccess(validation_param);
+    console.log(result);
     if ( result.hasOwnProperty("Ok") ) {
       tag.update(() => ({
         valid: true,
+        tag: result.Ok.tag,
         owner: result.Ok.owner,
-        locked: result.Ok.locked,
-        transfer_code: result.Ok.transfer_code,
         wallet: accountIdentifierFromBytes(result.Ok.wallet)
       }));
-      message = "Scan validated!";
+      message = "Access Granted!";
       setTimeout(() => {
         message = "";
       }, 5000)
+      console.log("Completed validate access...");
     } else if ( result.hasOwnProperty("Err") ) {
       message = result.Err.msg;
-
-      setTimeout(() => {
-        window.location.href = "https://gkox5-naaaa-aaaal-abhaq-cai.ic0.app/";
-      }, 3000)
     } else {
       message = "Something went wrong, your scan could not be validated."
     };
@@ -115,18 +99,10 @@
       admin: false
     }));
 
-    scanCredentials.update(() => ({
-      uid: 0,
-      ctr: 0,
-      cmac: "",
-      transfer_code: ""
-    }));
-
     tag.update(() => ({
       valid: false,
+      tag: "",
       owner: false,
-      locked: true,
-      transfer_code: null,
       wallet: null
     }));
 

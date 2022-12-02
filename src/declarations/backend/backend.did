@@ -6,6 +6,7 @@ type ValidationResult =
 type ValidationResponse = 
  record {
    owner: bool;
+   tag: Hex;
    wallet: blob;
  };
 type ValidationRequest = 
@@ -65,6 +66,7 @@ type Location =
    latitude: float64;
    longitude: float64;
  };
+type Hex = text;
 type BlockIndex = nat64;
 type AESKey = text;
 service : () -> SDM
