@@ -2,7 +2,7 @@ import svelte from "rollup-plugin-svelte";
 import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
 import livereload from "rollup-plugin-livereload";
-import { terser } from "rollup-plugin-terser";
+import terser from "@rollup/plugin-terser";
 import css from "rollup-plugin-css-only";
 import replace from "@rollup/plugin-replace";
 import inject from "@rollup/plugin-inject";
@@ -102,6 +102,7 @@ export default {
     inlineDynamicImports: true,
     name: "app",
     file: "public/build/bundle.js",
+    intro: 'const global = window;',
   },
   plugins: [
     svelte({

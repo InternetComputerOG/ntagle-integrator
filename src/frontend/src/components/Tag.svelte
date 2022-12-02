@@ -1,10 +1,7 @@
 <script>
   import { AccountIdentifier } from "@dfinity/nns";
   import { onMount } from "svelte";
-  import { FontAwesomeIcon } from 'fontawesome-svelte';
   import { auth, tag, scanCredentials } from "../store/auth";
-  import Unlock from "./Unlock.svelte";
-  import Lock from "./Lock.svelte";
 
   let walletBalance = 0;
   let withdrawalAddress;

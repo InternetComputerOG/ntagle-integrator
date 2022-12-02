@@ -1,7 +1,6 @@
 <script>
   import { onMount } from "svelte";
   import { auth, scanCredentials, createActor, tag } from "../store/auth";
-  import { FontAwesomeIcon } from 'fontawesome-svelte';
   import QRCode from "./QRJS.svelte";
 
   let template_url = "https://gkox5-naaaa-aaaal-abhaq-cai.ic0.app/tag?m=00000000000000x000000x0000000000000000x00000000000000000000000000000000";
@@ -152,105 +151,7 @@
 
 <h1>Welcome</h1>
 <!-- <button on:click={async () => await writeTemplate()}>Write Template</button> -->
-<p>Learn more about this project by 
-  <a href="https://docs.google.com/presentation/d/1KKktLRiNWqD3ZxWF3WZk9kEblMdr2c3gfrUekiXQa5Q/edit?usp=sharing" target="_blank" rel="noopener noreferrer">reviewing our hackathon slide deck</a> 
-  or 
-  <a href="https://twitter.com/ntagled" target="_blank" rel="noopener noreferrer">visiting our Twitter page</a>. 
-  You can also find the code 
-  <a href="https://github.com/InternetComputerOG/ntagle" target="_blank" rel="noopener noreferrer">on GitHub</a> 
-  and 
-  <a href="https://twitter.com/ntagled/status/1589126117524647936?s=20&t=R_T8AwXhOiF04_uieulJGQ" target="_blank" rel="noopener noreferrer">watch a video</a> 
-  of how the process works with physical tags.
-</p>
-
-<h2>Simulated Demo Tags</h2>
-<p>The NTAG424 NFC tags generate a unique url every time you scan them (by bringing a smartphone within 10cm of the tag). 
-  The virtual tags below simulate these scans, so you can try the dapp without physical tags.</p>
-
-<button on:click={refreshTagData}>↻ Refresh Tag Data</button>
-
-{#if errorMsg.length > 0}
-  <br><h5>{errorMsg}</h5>
-{/if}
-
-<div class="container">
-  <h3>Virtual Tag #1</h3>
-  <h4><span class="label">Tag: </span>#1244790287045008</h4>
-  {#if pendingTagData}
-    <div class="loader"></div> Loading tag data...
-  {:else}
-    <h6><span class="label">Status: </span> 
-      {#if tag1Status}
-        <span class="locked">LOCKED</span>
-      {:else}
-        <span class="unlocked">UNLOCKED</span>
-      {/if}
-    </h6>
-    <h6><span class="label"> Owner Principal:</span>{tag1OwnerPrincipal}</h6>
-    <h6><span class="label"> Balance:</span>{tag1Balance} ICP</h6>
-    {#if !tag1Scanning}
-      <button on:click={() => tagScan(1)}>Simulate a scan</button>
-    {:else}
-      <div class="loader"></div> Generating Scan URL...
-    {/if}
-    {#if tag1Scanned}
-      {#if errorMsgTag1.length > 0}
-        <br><h5>{errorMsgTag1}</h5>
-      {:else}
-        <h3>Virtual Scan #{tag1Count}</h3>
-        <div class="qr_code">
-          <QRCode codeValue="{tag1Url}" squareSize=140/>
-        </div>
-        <h6><a href="{tag1Url}" target="_blank" rel="noopener noreferrer">{tag1Url} </a><span class="copy-icon" on:click={() => copyTag1Url(tag1Url)}>
-          <FontAwesomeIcon icon="copy" />
-          {#if didCopyTag1Url}
-              Copied!
-          {/if}
-        </span></h6>
-      {/if}
-    {/if}
-  {/if}
-</div>
-
-<div class="container">
-  <h3>Virtual Tag #2</h3>
-  <h4><span class="label">Tag: </span>#1207406891700624</h4>
-  {#if pendingTagData}
-    <div class="loader"></div> Loading tag data...
-  {:else}
-    <h6><span class="label">Status: </span> 
-      {#if tag2Status}
-        <span class="locked">LOCKED</span>
-      {:else}
-        <span class="unlocked">UNLOCKED</span>
-      {/if}
-    </h6>
-    <h6><span class="label">Owner Principal: </span>{tag2OwnerPrincipal}</h6>
-    <h6><span class="label">Balance: </span>{tag2Balance} ICP</h6>
-    {#if !tag2Scanning}
-      <button on:click={() => tagScan(2)}>Simulate a scan</button>
-    {:else}
-      <div class="loader"></div> Generating Scan URL...
-    {/if}
-    {#if tag2Scanned}
-      {#if errorMsgTag2.length > 0}
-        <br><h5>{errorMsgTag2}</h5>
-      {:else}
-        <h3>Virtual Scan #{tag2Count}</h3>
-        <div class="qr_code">
-          <QRCode codeValue="{tag2Url}" squareSize=140/>
-        </div>
-        <h6><a href="{tag2Url}" target="_blank" rel="noopener noreferrer">{tag2Url} </a><span class="copy-icon" on:click={() => copyTag2Url(tag2Url)}>
-          <FontAwesomeIcon icon="copy" />
-          {#if didCopyTag2Url}
-              Copied!
-          {/if}
-        </span></h6>
-      {/if}
-    {/if}
-  {/if}
-</div>
-
+<p>This is a demo of an integration!</p>
 <style>
   .container {
     margin: 30px 0;

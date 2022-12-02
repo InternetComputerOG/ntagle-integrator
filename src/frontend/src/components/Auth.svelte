@@ -8,9 +8,9 @@
   let client;
   let url = window.location.href;
 
-  if (url.length < 121) {
-    window.location.href = "https://gkox5-naaaa-aaaal-abhaq-cai.ic0.app/";
-  };
+  // if (url.length < 121) {
+  //   window.location.href = "https://gkox5-naaaa-aaaal-abhaq-cai.ic0.app/";
+  // };
 
   let uid = parseInt(url.slice(50,64), 16);
   let ctr = parseInt(url.slice(65,71), 16);

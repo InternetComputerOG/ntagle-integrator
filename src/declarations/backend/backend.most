@@ -1,0 +1,22 @@
+// Version: 1.0.0
+type AccountIdentifier = Blob;
+type ChatMessage =
+  {
+    balance : Nat64;
+    from : Principal;
+    location : ?Location;
+    message : Text;
+    time : Nat64;
+    uid : TagUid__1
+  };
+type Hex = Text;
+type Location = {latitude : Float; longitude : Float};
+type TagUid__1 = Hex;
+actor {
+  stable var balancesEntries : [(Principal, [TagUid__1])];
+  stable var chat_messages : Nat;
+  stable var chatsEntries : [(Nat, ChatMessage)];
+  stable var ownersEntries : [(TagUid__1, Principal)];
+  stable var tagWalletsEntries : [(TagUid__1, AccountIdentifier)];
+  stable var tag_total : Nat
+};

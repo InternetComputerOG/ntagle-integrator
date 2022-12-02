@@ -4,6 +4,7 @@ import Bool         "mo:base/Bool";
 import Float        "mo:base/Float";
 import Nat          "mo:base/Nat";
 import Nat8         "mo:base/Nat8";
+import Nat32        "mo:base/Nat32";
 import Nat64        "mo:base/Nat64";
 import Random       "mo:base/Random";
 
@@ -30,7 +31,9 @@ module {
   };
 
   public func uidToSubaccount(uid : T.TagUid) : Account.Subaccount {
-    Blob.fromArray(Array.append(Array.freeze(Array.init<Nat8>(24, 0 : Nat8)), nat64ToBytes(uid)));
+    assert Hex.valid(uid);
+    let uid_nat64 = Nat64.fromNat(Nat32.toNat(Hex.hash(uid)));
+    Blob.fromArray(Array.append(Array.freeze(Array.init<Nat8>(24, 0 : Nat8)), nat64ToBytes(uid_nat64)));
   };
 
   // Drops the first 'n' elements of an array, returns the remainder of that array.

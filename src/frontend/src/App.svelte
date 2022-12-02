@@ -1,21 +1,11 @@
 <script>
   import Auth from "./components/Auth.svelte";
   import { auth, adminStatus, tag } from "./store/auth";
-  import { library } from '@fortawesome/fontawesome-svg-core';
-  import { faCopy } from '@fortawesome/free-solid-svg-icons';
   import { Router, Route, Link } from "svelte-navigator";
-  import CanisterIds from "./components/CanisterIds.svelte";
   import Chat from "./components/Chat.svelte";
-  import CMAC from "./components/CMAC.svelte";
-  import Encode from "./components/Encode.svelte";
+  import Admin from "./components/Admin.svelte";
   import Home from "./components/Home.svelte";
-  import Links from "./components/Links.svelte";
   import Tag from "./components/Tag.svelte";
-  import Unlock from "./components/Unlock.svelte";
-
-  // Add fontawesome Copy icon
-  const icons = [faCopy];
-  library.add(icons);
 </script>
 
 <Router>
@@ -42,14 +32,10 @@
           <Chat />
         {/if}
       {/if}
-      {#if $auth.loggedIn && $adminStatus}
-        <CMAC />
-        <Encode />
-        <Links />
-        <CanisterIds />
-      {/if}
     </Route>
-  
+  {#if $adminStatus}
+    <Admin />
+  {/if}
   </main>
 </Router>
 
