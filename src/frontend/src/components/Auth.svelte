@@ -18,7 +18,7 @@
   console.log("Validation ID: " + validation_id);
   console.log("Access Code: " + access_code);
 
-  let message = "Please login to validate your scan.";
+  let message = "Please login.";
 
   onMount(async () => {
     client = await AuthClient.create();
