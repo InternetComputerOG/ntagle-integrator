@@ -64,7 +64,7 @@ shared actor class SDM() = this {
 
   //  ----------- Public functions
   public shared({ caller }) func initializeNtagle() {
-    //  assert(_isAdmin(caller));
+    assert(_isAdmin(caller));
     
     Ntagle.registerIntegrator(my_profile);
   };
